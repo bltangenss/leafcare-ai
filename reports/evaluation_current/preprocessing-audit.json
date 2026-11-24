@@ -1,0 +1,6 @@
+{
+  "images_checked": 9402,
+  "nontrivial_exif_orientation": [],
+  "legacy_evaluation_orientation": "ignored",
+  "new_training_and_serving_orientation": "transpose"
+}

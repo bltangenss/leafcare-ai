@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Аурулар анықтамалығы — PlantDoc{% endblock %}
+{% block content %}
+<section class="hero"><h1>Аурулар анықтамалығы</h1>
+  <p>Жүйе танитын {{ groups|length }} өсімдік түрі және олардың аурулары.</p></section>
+{% for plant, items in groups.items() %}
+<h2 class="plant-h">{{ plant }}</h2>
+<div class="dgrid">
+  {% for d in items %}
+  <details class="card dcard">
+    <summary>
+      <span class="tag {{ 'ok' if d.healthy else 'bad' }}">{{ d.kind }}</span>
+      <b>{{ d.name }}</b>
+      {% if not d.healthy %}<i class="muted">{{ d.pathogen }}</i>{% endif %}
+    </summary>
+    {% if d.healthy %}
+      <p>{{ d.symptoms }}</p>
+    {% else %}
+      <p><b>Қауіптілік:</b> <span class="tag sev{{ d.severity }}">{{ d.severity_text }}</span></p>
+      <p><b>Белгілері.</b> {{ d.symptoms }}</p>
+      <b>Емдеу:</b><ul>{% for t in d.treatment %}<li>{{ t }}</li>{% endfor %}</ul>
+    {% endif %}
+    <b>Алдын алу:</b><ul>{% for t in d.prevention %}<li>{{ t }}</li>{% endfor %}</ul>
+  </details>
+  {% endfor %}
+</div>
+{% endfor %}
+{% endblock %}

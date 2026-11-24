@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h1>Жапырақ суреті бойынша өсімдік ауруын анықтау</h1>
+  <p>Жапырақтың суретін жүктеңіз — конволюциялық нейрондық желі (CNN) 14 өсімдік түрінің 38 класын
+     ажыратып, ауруды, оның себебін және емдеу шараларын көрсетеді.</p>
+</section>
+
+<section class="grid2">
+  <div class="card">
+    <form id="form">
+      <label id="drop" class="drop" for="file">
+        <input id="file" name="image" type="file" accept="image/*" hidden>
+        <img id="preview" alt="" hidden>
+        <div id="dropText" class="drop-text">
+          <div class="drop-ico">📷</div>
+          <b>Суретті осында сүйреп әкеліңіз</b>
+          <span>немесе таңдау үшін басыңыз · JPG, PNG, WEBP · 10 МБ дейін</span>
+        </div>
+      </label>
+      <div class="row">
+        <label class="sel">Модель
+          <select name="model" id="model">
+            {% for k, t in models %}<option value="{{ k }}" {{ 'selected' if k==default }}>{{ t }}</option>{% endfor %}
+          </select>
+        </label>
+        <button id="btn" class="btn" type="submit" disabled>Талдау</button>
+      </div>
+    </form>
+    <p class="hint">Кеңес: жапырақты бір түсті фонда, жақсы жарықта, кадрдың ортасында түсіріңіз.</p>
+  </div>
+
+  <div class="card" id="result">
+    <div class="empty" id="empty">
+      <div class="drop-ico">🔬</div>
+      <p>Нәтиже осы жерде пайда болады</p>
+    </div>
+    <div id="loading" class="loading" hidden><span class="spin"></span> Нейрондық желі талдап жатыр…</div>
+    <div id="out" hidden>
+      <div class="res-head">
+        <div>
+          <div class="muted" id="rPlant"></div>
+          <h2 id="rName"></h2>
+          <div class="tags"><span class="tag" id="rKind"></span><span class="tag" id="rSev"></span></div>
+        </div>
+        <div class="gauge" id="gauge"><span id="rConf"></span><small>сенімділік</small></div>
+      </div>
+      <div id="warn" class="warn" hidden>⚠ Модель сенімділігі төмен. Сурет анық емес немесе бұл өсімдік түрі
+        модельдің оқу деректерінде болмауы мүмкін. Басқа суретпен қайталап көріңіз.</div>
+      <p class="pathogen">Қоздырғыш: <i id="rPath"></i></p>
+
+      <div class="cam">
+        <figure><img id="rImg" alt="Жүктелген сурет"><figcaption>Бастапқы сурет</figcaption></figure>
+        <figure><img id="rCam" alt="Grad-CAM"><figcaption>Grad-CAM: модель назар аударған аймақ</figcaption></figure>
+      </div>
+
+      <h3>Ықтималдығы ең жоғары 5 класс</h3>
+      <div id="bars" class="bars"></div>
+
+      <div id="details"></div>
+      <p class="muted small" id="rMeta"></p>
+    </div>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='main.js') }}"></script>{% endblock %}

@@ -1,0 +1,38 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+frontend/node_modules/
+frontend/dist/
+logs/
+uploads/
+history.db
+
+# Local settings and credentials
+.claude/
+.env
+.env.*
+!.env.example
+!.env.sample
+*.log
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+*.pem
+*.key
+
+# Dataset and personal image artifacts
+data/
+docs/screens/
+reports/browser/
+reports/samples.png
+reports/gradcam_examples.png
+
+# Local experiment runs and machine-specific test output
+reports/runs/
+reports/backend-tests.xml
+reports/frontend-tests.json
+reports/verification-summary.json

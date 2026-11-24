@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Тарих — PlantDoc{% endblock %}
+{% block content %}
+<section class="hero"><h1>Диагностика тарихы</h1><p>Барлық талдаулар SQLite дерекқорында сақталады.</p></section>
+<div class="stats">
+  <div class="stat"><b>{{ stats.n }}</b><span>барлық талдау</span></div>
+  <div class="stat"><b>{{ healthy }}</b><span>сау жапырақ</span></div>
+  <div class="stat"><b>{{ items|length - healthy }}</b><span>ауру анықталды</span></div>
+  <div class="stat"><b>{{ '%.0f'|format((stats.c or 0)*100) }}%</b><span>орташа сенімділік</span></div>
+  <div class="stat"><b>{{ '%.0f'|format(stats.t or 0) }} мс</b><span>орташа уақыт</span></div>
+</div>
+{% if items %}
+<div class="card">
+<table class="tbl">
+  <thead><tr><th>Сурет</th><th>Уақыты</th><th>Өсімдік</th><th>Нәтиже</th><th>Сенімділік</th><th>Модель</th><th></th></tr></thead>
+  <tbody>
+  {% for it in items %}
+    <tr id="r{{ it.id }}">
+      <td><img class="thumb" src="/uploads/{{ it.filename }}" alt=""></td>
+      <td>{{ it.created_at.replace('T', ' ') }}</td>
+      <td>{{ it.info.plant }}</td>
+      <td><span class="tag {{ 'ok' if it.info.healthy else 'bad' }}">{{ it.info.name }}</span></td>
+      <td>{{ '%.1f'|format(it.confidence*100) }}%</td>
+      <td>{{ it.model }}</td>
+      <td class="nowrap"><a href="/?img={{ it.filename }}&model={{ it.model }}">Қайта талдау</a> ·
+        <button class="link" onclick="del({{ it.id }})">Жою</button></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% else %}
+<div class="card empty"><p>Әзірге талдау жасалған жоқ. <a href="/">Диагностика</a> бетіне өтіңіз.</p></div>
+{% endif %}
+{% endblock %}
+{% block scripts %}
+<script>
+async function del(id){ if(!confirm("Жазбаны жою керек пе?")) return;
+  const r = await fetch("/api/history/"+id,{method:"DELETE"}); if(r.ok) document.getElementById("r"+id).remove(); }
+</script>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Модель туралы — PlantDoc{% endblock %}
+{% block content %}
+<section class="hero"><h1>Модель туралы</h1>
+  <p>Жүйеде PlantVillage датасетінде оқытылған екі конволюциялық нейрондық желі қолданылады.
+     Кластар саны: {{ n_classes }}.</p></section>
+<div class="grid2">
+{% for k, m in metrics.items() %}
+  <div class="card">
+    <h2>{{ m.title }}</h2>
+    <div class="stats">
+      <div class="stat"><b>{{ '%.2f'|format(m.test_acc*100) }}%</b><span>тест дәлдігі (accuracy)</span></div>
+      <div class="stat"><b>{{ '%.2f'|format(m.f1_macro*100) }}%</b><span>F1 (macro)</span></div>
+      <div class="stat"><b>{{ '%.2f'|format(m.test_top3*100) }}%</b><span>Top-3 дәлдік</span></div>
+    </div>
+    <table class="tbl kv">
+      <tr><td>Precision (macro)</td><td>{{ '%.4f'|format(m.precision_macro) }}</td></tr>
+      <tr><td>Recall (macro)</td><td>{{ '%.4f'|format(m.recall_macro) }}</td></tr>
+      <tr><td>Параметрлер саны</td><td>{{ '{:,}'.format(m.params).replace(',', ' ') }}</td></tr>
+      <tr><td>Кіріс өлшемі</td><td>{{ m.img_size }}×{{ m.img_size }}×3</td></tr>
+      <tr><td>Дәуірлер саны</td><td>{{ m.epochs }}</td></tr>
+      <tr><td>Модель файлы</td><td>{{ '%.1f'|format(m.model_size_mb) }} МБ</td></tr>
+      <tr><td>Бір суретті өңдеу (CPU)</td><td>{{ '%.1f'|format(m.infer_ms_cpu) }} мс</td></tr>
+    </table>
+    <img class="figure" src="/reports/{{ k }}_curves.png" alt="" onerror="this.remove()">
+  </div>
+{% else %}
+  <div class="card"><p>Метрикалар табылмады. Модельді оқытып, reports/ папкасын толтырыңыз.</p></div>
+{% endfor %}
+</div>
+{% endblock %}

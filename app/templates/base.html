@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="kk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}PlantDoc — өсімдік ауруларын анықтау{% endblock %}</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <a class="brand" href="/"><span class="logo">🌿</span> Plant<b>Doc</b></a>
+    <nav>
+      <a href="/" class="{{ 'on' if page=='index' }}">Диагностика</a>
+      <a href="/diseases" class="{{ 'on' if page=='diseases' }}">Аурулар анықтамалығы</a>
+      <a href="/history" class="{{ 'on' if page=='history' }}">Тарих</a>
+      <a href="/about" class="{{ 'on' if page=='about' }}">Модель туралы</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+{% block content %}{% endblock %}
+</main>
+<footer class="wrap foot">
+  CNN терең оқыту негізіндегі өсімдік ауруларын анықтау жүйесі · Курстық жұмыс · 2026
+</footer>
+{% block scripts %}{% endblock %}
+</body>
+</html>
